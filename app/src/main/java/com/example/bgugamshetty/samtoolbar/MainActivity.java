@@ -1,15 +1,18 @@
 package com.example.bgugamshetty.samtoolbar;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navdrawer);
@@ -92,12 +98,42 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
                     case 4:
-                    Intent i 
+                    themeinit();
+                        break;
 
                 }
 
             }
         });
+    }
+
+    private void themeinit() {
+        String names[] ={"Red","Blue","white","orange"};
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.list, null);
+        alertDialog.setView(convertView);
+        alertDialog.setTitle("List");
+        final ListView lv = (ListView) convertView.findViewById(R.id.lv);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,names);
+        lv.setAdapter(adapter);
+        final AlertDialog ad=alertDialog.show();
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               switch(position) {
+                   case 0:
+                       mDrawerList.setBackgroundColor(getResources().getColor(R.color.yellow));
+                       toolbar.setBackgroundColor(getResources().getColor(R.color.yellow));
+
+                       break;
+               }
+                ad.dismiss();
+
+
+            }
+        });
+
     }
 
     @Override
